@@ -16,7 +16,7 @@ class SignupView(APIView):
         request_body = SignupBodySerializer, 
         responses = {
             "201": "SUCCESS",
-            "400": "BAD_REQUEST",
+            "400": "BAD_REQUEST" 
         },
         operation_id = "회원가입",
         operation_description = "이메일(abc@def.com 등의 이메일 형식), 패스워드(영문, 숫자, 특수기호) validation이 적용되어 있습니다."
@@ -44,15 +44,17 @@ class SignupView(APIView):
             encoded_password = data['password'].encode('utf-8')
             hashed_password  = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
             
-            User.objects.create(
+            user = User.objects.create(
                 email    = data['email'],
                 password = hashed_password.decode('utf-8')
             )
 
-            return JsonResponse({'message': 'SUCCESS'}, status=201)
+            access_token = jwt.encode({'user_id': user.id}, SECRET_KEY, ALGORITHM)
+
+            return JsonResponse({'message': 'SUCCESS', 'access_token': access_token}, status=201)
 
         except KeyError:
-            return JsonResponse({'message': 'KEY_ERROR'},status=400)
+            return JsonResponse({'message': 'KEY_ERROR'}, status=400)
 
 class SigninView(APIView):
     @swagger_auto_schema (
