@@ -1,6 +1,6 @@
-import json, bcrypt
+import json, bcrypt, jwt
 
-from django.http          import JsonResponse
+from django.http          import JsonResponse, response
 from drf_yasg             import openapi
 from drf_yasg.utils       import swagger_auto_schema
 from rest_framework.views import APIView
@@ -9,14 +9,14 @@ from core.decorators   import login_required
 from my_settings       import SECRET_KEY, ALGORITHM
 from users.models      import User
 from users.validation  import validate_email, validate_password
-from users.serializers import SignupBodySerializer, MyPageGetSerializer, MyPagePatchBodySerializer
+from users.serializers import SigninBodySerializer, SignupBodySerializer, MyPageGetSerializer, MyPagePatchBodySerializer
 
 class SignupView(APIView):
     @swagger_auto_schema (
         request_body = SignupBodySerializer, 
         responses = {
             "201": "SUCCESS",
-            "400": "BAD_REQUEST" 
+            "400": "BAD_REQUEST",
         },
         operation_id = "회원가입",
         operation_description = "이메일(abc@def.com 등의 이메일 형식), 패스워드(영문, 숫자, 특수기호) validation이 적용되어 있습니다."
@@ -50,6 +50,41 @@ class SignupView(APIView):
             )
 
             return JsonResponse({'message': 'SUCCESS'}, status=201)
+
+        except KeyError:
+            return JsonResponse({'message': 'KEY_ERROR'},status=400)
+
+class SigninView(APIView):
+    @swagger_auto_schema (
+        request_body = SigninBodySerializer,
+        response = {
+            "200": "SUCCESS",
+            "400": "BAD_REQUEST"
+        },
+        operation_id = "로그인",
+        operation_description = "이메일과 비밀번호 입력이 필요합니다."
+    )
+    
+    def post(self, request):
+        try:
+            data     = json.loads(request.body)
+            email    = data['email']
+            password = data['password']
+
+            if not User.objects.filter(email=email).exists():
+                return JsonResponse({'message': 'NOT_EXISTED_EMAIL'}, status=400)
+
+            user = User.objects.get(email=email)
+            
+            encoded_password = password.encode('utf-8')
+            hashed_password  = user.password.encode('utf-8')
+
+            if not bcrypt.checkpw(encoded_password, hashed_password):
+                return JsonResponse({'message': 'BAD_REQUEST'}, status=400)
+
+            access_token = jwt.encode({'user_id': user.id}, SECRET_KEY, ALGORITHM)
+
+            return JsonResponse({'message': 'SUCCESS', 'access_token': access_token}, status=200)
 
         except KeyError:
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
