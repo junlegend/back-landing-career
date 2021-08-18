@@ -49,7 +49,7 @@ class SignupView(APIView):
                 password = hashed_password.decode('utf-8')
             )
 
-            access_token = jwt.encode({'user_id': user.id}, SECRET_KEY, ALGORITHM)
+            access_token = jwt.encode({'user_id': user.id, 'role': user.role}, SECRET_KEY, ALGORITHM)
 
             return JsonResponse({'message': 'SUCCESS', 'access_token': access_token}, status=201)
 
@@ -84,7 +84,7 @@ class SigninView(APIView):
             if not bcrypt.checkpw(encoded_password, hashed_password):
                 return JsonResponse({'message': 'BAD_REQUEST'}, status=400)
 
-            access_token = jwt.encode({'user_id': user.id}, SECRET_KEY, ALGORITHM)
+            access_token = jwt.encode({'user_id': user.id, 'role': user.role}, SECRET_KEY, ALGORITHM)
 
             return JsonResponse({'message': 'SUCCESS', 'access_token': access_token}, status=200)
 
