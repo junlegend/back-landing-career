@@ -9,3 +9,11 @@ class User(TimeStampModel, SoftDeleteModel):
 
     class Meta:
         db_table = 'users'
+
+class UserTemp(models.Model):
+    email      = models.EmailField()
+    code       = models.CharField(max_length=10)
+    expired_at = models.DateTimeField()
+
+    class Meta:
+        db_table = 'usertemps'
