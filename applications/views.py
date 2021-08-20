@@ -181,7 +181,7 @@ class ApplicationAdminView(APIView):
 
         q = Q()
 
-        if type:
+        if career_type:
             q.add(Q(recruits__career_type = career_type), q.AND)
         
         if position:
