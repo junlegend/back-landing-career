@@ -124,6 +124,10 @@ USE_TZ = False
 
 STATIC_URL = 'static/'
 
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field
 
