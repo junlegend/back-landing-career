@@ -15,7 +15,7 @@ from pathlib import Path
 from global_variable import DATABASES, SECRET_KEY, IS_DEBUG
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = IS_DEBUG or True
+DEBUG = IS_DEBUG
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,9 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRET_KEY
 
-
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
