@@ -15,7 +15,6 @@ from pathlib import Path
 from global_variable import DATABASES, SECRET_KEY, IS_DEBUG
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# TODO: 스웨거 문서 뜨게 변경 후 삭제 필요
 DEBUG = IS_DEBUG or True
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -123,9 +122,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
-STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field
@@ -159,7 +156,3 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
-
-SWAGGER_SETTINGS = {
-   'USE_SESSION_AUTH': False,
-}
