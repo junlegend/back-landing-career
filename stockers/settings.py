@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'django_extensions',
+    'storage'
 ]
 
 MIDDLEWARE = [
@@ -161,3 +162,7 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
+
+SWAGGER_SETTINGS = {
+   'USE_SESSION_AUTH': False,
+}
