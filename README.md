@@ -7,7 +7,7 @@
 - 개발 인원 : 최명준, 김예랑
 ## 적용 기술 및 구현 기능
 #### 언어, 프레임워크, 데이터베이스
-- Python, Django, MySQL
+- Python, Django, MySQL(RDS)
 #### 기타 도구
 - Sendgrid, s3(AWS storage)
 #### API 문서화
@@ -15,7 +15,7 @@
 #### 협업 도구
 - Git + GitHub, Github Issues, Github Projects
 #### 배포 관련
-- Docker, Github Actions, AWS(ECR, EC2, RDS)
+- Docker, Github Actions, AWS(ECR, EC2)
 ### 구현 기능
 - 유저 회원가입/로그인, 정보 조회/수정, 비밀번호 변경 관련 API
 - 채용 목록 조회/생성, 채용 상세 조회/수정/삭제 API 
@@ -30,4 +30,7 @@
 
 ## Reference
 - 오픈소스 프로젝트로 누구나 어떤 목적으로든 프로젝트를 보고, 사용하고, 수정하고, 배포할 수 있습니다. 
-- 관련 권한은 <a href="https://opensource.org/licenses" target="_blank">open source license</a>를 통해 적용됩니다.
+
+# License
+[`MIT License`](./LICENSE)
+
