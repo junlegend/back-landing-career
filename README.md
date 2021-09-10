@@ -22,9 +22,9 @@
 - 지원서 작성, 조회, 수정, 삭제 API
 - 지원 이력 관리(관리자 전용) API
 ## 참고 자료
-### 테이블 관계도
+### 개념적 모델링 (Conceptual Modeling)
 ![stockers TableRelationship](https://user-images.githubusercontent.com/74804995/130888892-e298b03c-eb24-4fe4-bc74-59b79f9a8281.png)
-### ERD
+### 논리적 모델링 (Logical Modeling)
 ![stockers ERD](https://user-images.githubusercontent.com/74804995/130898163-45f9f30e-f08a-4298-856a-8b246863b7e3.png)
 
 
