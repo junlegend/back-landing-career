@@ -38,7 +38,7 @@ class ApplicationView(APIView):
             "404": "NOT_FOUND",
             "401": "UNAUTHORIZED"
         },
-        operation_id = "해당 공고에 대한 지원서 조회",
+        operation_id          = "해당 공고에 대한 지원서 조회",
         operation_description = "header에 토큰이 필요합니다."
     )
 
@@ -52,25 +52,27 @@ class ApplicationView(APIView):
             
             content = application.content
             content["portfolio"]["portfolioUrl"] = attachment.file_url
+            
             result = {"content": content}
 
             return JsonResponse({"result": result}, status=200)
 
         except Recruit.DoesNotExist:
             return JsonResponse({"message": "NOT_FOUND"}, status=404)
+        
         except Application.DoesNotExist:
             return JsonResponse({"message": "NOT_FOUND"}, status=404)
 
     @swagger_auto_schema (
         manual_parameters = [parameter_token, parameter_upload],
-        request_body= ApplicationSerializer,
+        request_body      = ApplicationSerializer,
         responses = {
             "201": "SUCCESS",
             "404": "NOT_FOUND",
             "401": "UNAUTHORIZED",
             "400": "BAD_REQUEST"
         },
-        operation_id = "해당 공고에 대한 지원서 생성",
+        operation_id          = "해당 공고에 대한 지원서 생성",
         operation_description = "header에 토큰이 필요합니다.\n"+
                                 "formData에 json형식의 데이터가 필요합니다.\n"+
                                 "formData에 파일을 첨부할 수 있습니다."
@@ -82,7 +84,7 @@ class ApplicationView(APIView):
             user    = request.user
             recruit = Recruit.objects.get(id=recruit_id)
             content = request.POST['content']
-            content  = json.loads(content)
+            content = json.loads(content)
             status  = "ST1"
 
             if recruit.applications.filter(user=user).exists():
@@ -119,9 +121,7 @@ class ApplicationView(APIView):
                 portfolio,
                 "stockers-bucket",
                 file_name,
-                ExtraArgs={
-                    "ContentType": portfolio.content_type
-                }
+                ExtraArgs = {"ContentType": portfolio.content_type}
             )
 
             file_url = "stockfolio.coo6llienldy.ap-northeast-2.rds.amazonaws.com/" + file_name
@@ -142,19 +142,20 @@ class ApplicationView(APIView):
 
         except Recruit.DoesNotExist:
             return JsonResponse({"message": "NOT_FOUND"}, status=404)
+        
         except KeyError:
             return JsonResponse({"message": "KEY_ERROR"}, status=400)
 
     @swagger_auto_schema (
         manual_parameters = [parameter_token, parameter_upload],
-        request_body= ApplicationSerializer,
+        request_body = ApplicationSerializer,
         responses = {
             "200": "SUCCESS",
             "404": "NOT_FOUND",
             "401": "UNAUTHORIZED",
             "400": "BAD_REQUEST"
         },
-        operation_id = "해당 공고에 대한 지원서 수정",
+        operation_id          = "해당 공고에 대한 지원서 수정",
         operation_description = "header에 토큰이 필요합니다.\n"+
                                 "formData에 json형식의 수정 데이터가 필요합니다.\n"+
                                 "formData에 파일을 첨부할 수 있습니다."
@@ -169,7 +170,7 @@ class ApplicationView(APIView):
             content = request.POST["content"]
             content = json.loads(content)
             
-            application = recruit.applications.get(user=user)
+            application         = recruit.applications.get(user=user)
             application.content = content
             application.save()
 
@@ -189,7 +190,7 @@ class ApplicationView(APIView):
                     portfolio,
                     "stockers-bucket",
                     file_name,
-                    ExtraArgs={"ContentType": portfolio.content_type}
+                    ExtraArgs = {"ContentType": portfolio.content_type}
                 )
 
                 file_url = "stockfolio.coo6llienldy.ap-northeast-2.rds.amazonaws.com/" + file_name
@@ -209,8 +210,10 @@ class ApplicationView(APIView):
 
         except Recruit.DoesNotExist:
             return JsonResponse({"message": "NOT_FOUND"}, status=404)
+        
         except Application.DoesNotExist:
             return JsonResponse({"message": "NOT_FOUND"}, status=404)
+        
         except KeyError:
             return JsonResponse({"message": "KEY_ERROR"}, status=400)    
 
@@ -221,7 +224,7 @@ class ApplicationView(APIView):
             "404": "NOT_FOUND",
             "401": "UNAUTHORIZED",
         },
-        operation_id = "해당 공고에 대한 지원서 삭제",
+        operation_id          = "해당 공고에 대한 지원서 삭제",
         operation_description = "header에 토큰이 필요합니다"
     )
     
@@ -238,6 +241,7 @@ class ApplicationView(APIView):
 
         except Recruit.DoesNotExist:
             return JsonResponse({"message": "NOT_FOUND"}, status=404)
+        
         except Application.DoesNotExist:
             return JsonResponse({"message": "NOT_FOUND"}, status=404)
 
@@ -259,15 +263,15 @@ class ApplicationAdminView(APIView):
             "400": "BAD_REQUEST",
             "401": "UNAUTHORIZED",
         },
-        operation_id = "(관리자 전용) 지원목록 조회",
+        operation_id          = "(관리자 전용) 지원목록 조회",
         operation_description = "header에 토큰이 필요합니다."
     )
 
     @admin_only
     def get(self, request):
-        career_type = request.GET.get('career_type', None)
-        position_title    = request.GET.get('position', None)
-        status      = request.GET.get('status', None)
+        career_type    = request.GET.get('career_type', None)
+        position_title = request.GET.get('position', None)
+        status         = request.GET.get('status', None)
 
         q = Q()
 
@@ -319,7 +323,7 @@ class ApplicationAdminDetailView(APIView):
             "400": "BAD_REQUEST",
             "401": "UNAUTHORIZED"
         },
-        operation_id = "(관리자 전용) 지원 세부사항 조회",
+        operation_id          = "(관리자 전용) 지원 세부사항 조회",
         operation_description = "header에 토큰이 필요합니다."
     )
     
@@ -357,7 +361,7 @@ class ApplicationAdminDetailView(APIView):
             "400": "BAD_REQUEST",
             "401": "UNAUTHORIZED"
         },
-        operation_id = "(관리자 전용) 지원 상태 수정",
+        operation_id          = "(관리자 전용) 지원 상태 수정",
         operation_description = "header에 토큰이, body에 json형식 데이터가 필요합니다.\n" +
                                 "입력 가능한 status 데이터 값 : ST1, ST2, ST3, ST4, ST5\n"
     )
